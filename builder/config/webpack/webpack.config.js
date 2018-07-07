@@ -3,54 +3,55 @@ let ExtractTextPlugin = require("extract-text-webpack-plugin");
 let LiveReloadPlugin = require("webpack-livereload-plugin");
 let CopyWebpackPlugin = require("copy-webpack-plugin");
 let shell = require("shelljs");
-var path = require('path');
+let path = require('path');
 
+let composer = true;
 let production = process.env.NODE_ENV === "production" ? true : false;
 
 production ? console.log("Enable production mode.") : null;
 
-let templates = [{
-    component: "themes",
-    module: "hybris",
-    composer: true
-}];
-
-module.exports = templates.map(template => {
-    let templateConfig = require("./app/" + template.component + "/" + template.module + "/templateConfig.js");
+module.exports = () => {
     let workdir = __dirname;
 
-    if (template.composer && shell.cd("./app/" + template.component + "/" + template.module + "/src") && shell.exec("composer install").code !== 0) {
+    if (composer && shell.cd("./app/src") && shell.exec("composer install").code !== 0) {
         shell.echo("Error: Can not install composer");
         shell.exit(1);
     }
-
     if (shell.pwd().stdout != workdir) shell.cd(workdir);
 
     let templateModules = {
-        entry: templateConfig.entryLoader(template.module),
+        entry: {
+            main: [
+                './app/js/mail.js',
+                './app/scss/mail.scss'
+            ]
+        },
 
-        output: templateConfig.outputLoader(template.module, production),
+        output: {
+            path: __dirname + '/dist/assets/',
+            filename: '[name].js'
+        },
 
         module: {
             rules: [{
-                    test: /\.css$/,
-                    use: ["style-loader", "css-loader"]
-                },
+                test: /\.css$/,
+                use: ["style-loader", "css-loader"]
+            },
 
                 {
                     test: /\.s[ac]ss$/,
                     use: ExtractTextPlugin.extract({
                         use: [{
-                                loader: "css-loader",
-                                options: {
-                                    sourceMap: true
-                                }
-                            },
+                            loader: "css-loader",
+                            options: {
+                                sourceMap: true
+                            }
+                        },
                             {
-                                loader: 'postcss-loader', 
+                                loader: 'postcss-loader',
                                 options: {
-									sourceMap: true,
-                                    plugins: function() {
+                                    sourceMap: true,
+                                    plugins: function () {
                                         return [
                                             require('precss'),
                                             require('autoprefixer')
@@ -65,7 +66,7 @@ module.exports = templates.map(template => {
                                     includePaths: [
                                         path.resolve(__dirname, "./node_modules/foundation-sites"),
                                         path.resolve(__dirname, "./node_modules/@fortawesome/fontawesome-free-webfonts"),
-                                        __dirname + "/app/themes/" + template + "/images"
+                                        path.resolve(__dirname + "/app/images")
                                     ]
                                 }
                             }
@@ -77,11 +78,11 @@ module.exports = templates.map(template => {
                 {
                     test: /\.png|jpe?g|gif$/,
                     loaders: [{
-                            loader: "file-loader",
-                            options: {
-                                name: "../images/[name].[ext]"
-                            }
-                        },
+                        loader: "file-loader",
+                        options: {
+                            name: "../images/[name].[ext]"
+                        }
+                    },
 
                         "img-loader"
                     ]
@@ -94,7 +95,7 @@ module.exports = templates.map(template => {
                         name: "../images/[name].[ext]"
                     },
                     include: [
-                        __dirname + "./app/" + template.component + "/" + template.module + "/images"
+                        path.resolve(__dirname + "./app/images")
                     ]
                 },
 
@@ -105,8 +106,8 @@ module.exports = templates.map(template => {
                         name: "../fonts/[name].[ext]"
                     },
                     include: [
-                        __dirname + "/app/" + template.component + "/" + template.module + "/fonts",
-                        __dirname + "/node_modules/@fortawesome/fontawesome-free-webfonts"
+                        path.resolve(__dirname + "/app/fonts"),
+                        path.resolve(__dirname + "/node_modules/@fortawesome/fontawesome-free-webfonts")
                     ]
                 },
 
@@ -122,12 +123,24 @@ module.exports = templates.map(template => {
             new ExtractTextPlugin("[name].css"),
             new webpack.ProvidePlugin({
                 $: "jquery",
-                jQuery: "jquery",
-                moment: "moment",
-                Ps: "perfect-scrollbar"
+                jQuery: "jquery"
             }),
             new CopyWebpackPlugin(
-                templateConfig.plugins.copyPluginLoader(template.module)
+                [
+                    {
+                        from: './app/src/',
+                        to: './',
+                        ignore: [
+                            '*Test.php',
+                            'composer.*',
+                            '.gitkeep'
+                        ]
+                    },
+                    {
+                        from: './app/images/',
+                        to: './images'
+                    }
+                ]
             )
         ]
     };
@@ -147,14 +160,14 @@ module.exports = templates.map(template => {
             })
         );
     }
-     else {
-    	templateModules.plugins.push(
-    		new LiveReloadPlugin({
-    			protocol: "http",
-    			appendScriptTag: false
-    		})
-    	);
+    else {
+        templateModules.plugins.push(
+            new LiveReloadPlugin({
+                protocol: "http",
+                appendScriptTag: true
+            })
+        );
     }
 
     return templateModules;
-});
+};
