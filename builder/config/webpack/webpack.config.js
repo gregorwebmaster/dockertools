@@ -1,7 +1,8 @@
 let webpack = require("webpack");
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
 let LiveReloadPlugin = require("webpack-livereload-plugin");
-let CopyWebpackPlugin = require("copy-webpack-plugin");
+let HtmlWebpackPlugin = require('html-webpack-plugin');
+let CopyWebpackPlugin = require('copy-webpack-plugin');
 let shell = require("shelljs");
 let path = require('path');
 
@@ -124,6 +125,12 @@ module.exports = () => {
             new webpack.ProvidePlugin({
                 $: "jquery",
                 jQuery: "jquery"
+            }),
+            new HtmlWebpackPlugin({
+                    chunks: ['main'],
+                    inject: 'head',
+                    filename: path.resolve(__dirname + '/dist/index.php'),
+                    template: path.resolve(__dirname + '/app/index.php')
             }),
             new CopyWebpackPlugin(
                 [

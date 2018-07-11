@@ -14,7 +14,7 @@ RUN php -r "unlink('composer-setup.php');"
 
 RUN mkdir /workspace
 
-COPY config /workspace
+COPY config/webpack /workspace
 
 WORKDIR /workspace
 
