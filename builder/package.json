@@ -28,6 +28,10 @@
     "html-webpack-plugin": "^2.29.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free-brands": "^5.0.13",
+    "@fortawesome/fontawesome-free-regular": "^5.0.13",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
+    "@fortawesome/fontawesome-free-webfonts": "^1.0.9",
     "foundation-sites": "^6.4.1",
     "jquery": "^3.1.1"
   }

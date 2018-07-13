@@ -23,8 +23,8 @@ module.exports = () => {
     let templateModules = {
         entry: {
             main: [
-                './app/js/mail.js',
-                './app/scss/mail.scss'
+                './app/js/main.js',
+                './app/scss/main.scss'
             ]
         },
 
@@ -136,7 +136,7 @@ module.exports = () => {
                 [
                     {
                         from: './app/src/',
-                        to: './',
+                        to: '../',
                         ignore: [
                             '*Test.php',
                             'composer.*',
@@ -145,7 +145,7 @@ module.exports = () => {
                     },
                     {
                         from: './app/images/',
-                        to: './images'
+                        to: '../images'
                     }
                 ]
             )

@@ -13,11 +13,8 @@ RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN php -r "unlink('composer-setup.php');"
 
 RUN mkdir /workspace
-
-COPY config/webpack /workspace
-
 WORKDIR /workspace
 
-RUN npm install
+EXPOSE 35729
 
-CMD ["npm", "run", "watch"]
+CMD npm install && npm run watch
