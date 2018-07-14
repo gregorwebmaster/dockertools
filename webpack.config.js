@@ -1,7 +1,8 @@
 let webpack = require("webpack");
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
 let LiveReloadPlugin = require("webpack-livereload-plugin");
-let CopyWebpackPlugin = require("copy-webpack-plugin");
+let HtmlWebpackPlugin = require('html-webpack-plugin');
+let CopyWebpackPlugin = require('copy-webpack-plugin');
 let shell = require("shelljs");
 let path = require('path');
 
@@ -22,8 +23,8 @@ module.exports = () => {
     let templateModules = {
         entry: {
             main: [
-                './app/js/mail.js',
-                './app/scss/mail.scss'
+                './app/js/main.js',
+                './app/scss/main.scss'
             ]
         },
 
@@ -125,11 +126,17 @@ module.exports = () => {
                 $: "jquery",
                 jQuery: "jquery"
             }),
+            new HtmlWebpackPlugin({
+                    chunks: ['main'],
+                    inject: 'head',
+                    filename: path.resolve(__dirname + '/dist/index.php'),
+                    template: path.resolve(__dirname + '/app/index.php')
+            }),
             new CopyWebpackPlugin(
                 [
                     {
                         from: './app/src/',
-                        to: './',
+                        to: '../',
                         ignore: [
                             '*Test.php',
                             'composer.*',
@@ -138,7 +145,7 @@ module.exports = () => {
                     },
                     {
                         from: './app/images/',
-                        to: './images'
+                        to: '../images'
                     }
                 ]
             )
