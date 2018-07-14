@@ -5,7 +5,7 @@ Docker images for modern webdevelopment based on alpine linux
 
 ## 1. Ngino builder
 
-### What is builder container
+### What is builder container:
 We are using webpack & php composer to help you deployed modern web application. Exemplar App you can found in [project repository](https://github.com/gregorwebmaster/ngino/tree/master/builder)
 
 ### Instaled Packages
@@ -19,7 +19,7 @@ We are using webpack & php composer to help you deployed modern web application.
 
 ### Start a build server
 
-> docker run -v /patch/to/your/app:/workspace -p 35729:35729 gregorwebmaster/ngino-builder
+> docker run -v /patch/to/your/app:/workspace -p 35729:35729 gregorwebmaster/ngino:builder
 
 #### using docker-compose
 
@@ -29,7 +29,7 @@ version: '3.2'
 services:
 
   builder:
-    image: gregorwebmaster/ngino-builder
+    image: gregorwebmaster/ngino:builder
     volumes:
       - /patch/to/your/app:/workspace
     ports:
