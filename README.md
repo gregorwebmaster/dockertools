@@ -27,7 +27,7 @@ version: '3.2'
 services:
 
   builder:
-    image: gregorwebmaster/ngino:builder
+    image: gregorwebmaster/dockertools:builder
     volumes:
       - /patch/to/your/app:/workspace
     ports:
