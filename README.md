@@ -18,7 +18,7 @@ We are using webpack and php composer to help you deployed modern web applicatio
 * 35729  - Live Reload Webpack plugin
 
 ### Start a build server
-> docker run -v /patch/to/your/app:/workspace -p 35729:35729 gregorwebmaster/ngino:builder
+> docker run -v /patch/to/your/app:/workspace -p 35729:35729 gregorwebmaster/dockertools:builder
 
 #### using docker-compose
 ```
