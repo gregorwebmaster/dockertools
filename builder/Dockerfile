@@ -17,4 +17,4 @@ WORKDIR /workspace
 
 EXPOSE 35729
 
-CMD npm install && npm run watch
+CMD npm install
