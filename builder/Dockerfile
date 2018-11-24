@@ -1,20 +1,40 @@
-FROM alpine:3.8
+FROM php:7.2-cli-alpine3.8
 
+# install system library
 RUN apk update
-RUN apk upgrade
-RUN apk add automake autoconf alpine-sdk build-base nasm libtool libpng-dev nodejs npm
+RUN apk add automake autoconf alpine-sdk build-base nasm libtool libpng-dev
+
+# instal node & co.
+RUN apk add nodejs npm
 RUN npm i npm@latest -g
 
-RUN apk add php7 php7-common php7-opcache php7-openssl php7-session php7-sockets php7-xdebug php7-curl php7-json php7-dom php7-xml php7-xmlwriter php7-simplexml php7-pdo php7-pdo_mysql php7-pdo_sqlite php7-pear php7-phar php7-gd php7-iconv php7-zlib php7-mbstring php7-tokenizer php7-mcrypt php7-ctype php7-openssl php7-redis php7-zip
-
+# instal composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-RUN php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+RUN php -r "if (hash_file('sha384', 'composer-setup.php') === '93b54496392c062774670ac18b134c3b3a95e5a5e5c8f1a9f115f203b75bf9a129d5daa8ba6a13e2cc8a1da0806388a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN php -r "unlink('composer-setup.php');"
 
+# install jasmine
+RUN npm install -g jasmine
+
+# install php Unit v6
+RUN wget https://phar.phpunit.de/phpunit-6.5.9.phar
+RUN chmod +x phpunit-6.5.9.phar
+RUN mv phpunit-6.5.9.phar /usr/local/bin/phpunit6
+RUN phpunit6 --version
+
+# install php Unit v7
+RUN wget https://phar.phpunit.de/phpunit-7.4.4.phar
+RUN chmod +x phpunit-7.4.4.phar
+RUN mv phpunit-7.4.4.phar /usr/local/bin/phpunit
+RUN phpunit --version
+
+# clear installation
+RUN rm -rf /var/cache/apk/*
+
+# set workdir
 RUN mkdir /workspace
 WORKDIR /workspace
 
+# expose Live Reload port
 EXPOSE 35729
-
-CMD npm install && npm run watch
