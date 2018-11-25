@@ -21,13 +21,11 @@ RUN npm install -g jasmine
 RUN wget https://phar.phpunit.de/phpunit-6.5.9.phar
 RUN chmod +x phpunit-6.5.9.phar
 RUN mv phpunit-6.5.9.phar /usr/local/bin/phpunit6
-RUN phpunit6 --version
 
 # install php Unit v7
 RUN wget https://phar.phpunit.de/phpunit-7.4.4.phar
 RUN chmod +x phpunit-7.4.4.phar
 RUN mv phpunit-7.4.4.phar /usr/local/bin/phpunit
-RUN phpunit --version
 
 # clear installation
 RUN rm -rf /var/cache/apk/*
@@ -35,6 +33,3 @@ RUN rm -rf /var/cache/apk/*
 # set workdir
 RUN mkdir /workspace
 WORKDIR /workspace
-
-# expose Live Reload port
-EXPOSE 35729
