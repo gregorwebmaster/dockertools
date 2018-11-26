@@ -1,0 +1,22 @@
+#!/bin/bash
+
+IMAGE=gregorwebmaster/dockertools:builder
+BUILD_CONTAINER=dockertools-builder
+
+npm_install () {
+    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $IMAGE  npm install --dd
+}
+
+assets_prod () {
+    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $IMAGE  npm run production
+}
+
+assets_dev () {
+    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $IMAGE  npm run dev
+}
+
+assets_watch () {
+    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $IMAGE  npm run watch
+}
+
+$*
