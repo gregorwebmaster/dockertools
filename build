@@ -3,6 +3,10 @@
 IMAGE=gregorwebmaster/dockertools:builder
 BUILD_CONTAINER=dockertools-builder
 
+run_interactive () {
+    docker run -v $PWD:/workspace -it --rm --name $BUILD_CONTAINER $IMAGE  bash
+}
+
 npm_install () {
     docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $IMAGE  npm install --dd
 }
