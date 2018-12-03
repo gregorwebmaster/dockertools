@@ -16,11 +16,16 @@ assets_prod () {
 }
 
 assets_dev () {
-    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $IMAGE  npm run dev
+    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $IMAGE  npm run dev00
 }
 
 assets_watch () {
     docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $IMAGE  npm run watch
+}
+
+#tests runners
+unitphp () {
+    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $IMAGE  /workspace/app/src/vendor/bin/phpunit --version
 }
 
 $*

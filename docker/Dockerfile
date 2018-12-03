@@ -14,16 +14,6 @@ RUN php -r "if (hash_file('sha384', 'composer-setup.php') === '93b54496392c06277
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN php -r "unlink('composer-setup.php');"
 
-# install php Unit v6
-RUN wget https://phar.phpunit.de/phpunit-6.5.9.phar
-RUN chmod +x phpunit-6.5.9.phar
-RUN mv phpunit-6.5.9.phar /usr/local/bin/phpunit6
-
-# install php Unit v7
-RUN wget https://phar.phpunit.de/phpunit-7.4.4.phar
-RUN chmod +x phpunit-7.4.4.phar
-RUN mv phpunit-7.4.4.phar /usr/local/bin/phpunit
-
 # clear installation
 RUN rm -rf /var/cache/apk/*
 
