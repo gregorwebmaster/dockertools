@@ -1,31 +1,40 @@
 #!/bin/bash
 
-IMAGE=gregorwebmaster/dockertools:builder
+BUILDER=gregorwebmaster/dockertools:builder
+DEVSERV=gregorwebmaster/dockertools:devserv
 BUILD_CONTAINER=dockertools-builder
+TEST_CONTAINER=dockertools-tester
+DEBUG_CONTAINER=dockertools-debuger
 
 run_interactive () {
-    docker run -v $PWD:/workspace -it --rm --name $BUILD_CONTAINER $IMAGE  bash
+    docker run -v $PWD:/workspace -it --rm --name $BUILD_CONTAINER $DEVSERV  sh
 }
 
 npm_install () {
-    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $IMAGE  npm install --dd
+    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $BUILDER  npm install --dd
 }
 
 assets_prod () {
-    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $IMAGE  npm run production
+    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $BUILDER  npm run production
 }
 
 assets_dev () {
-    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $IMAGE  npm run dev00
+    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $BUILDER  npm run dev
 }
 
 assets_watch () {
-    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $IMAGE  npm run watch
+    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $BUILDER  npm run watch
 }
 
 #tests runners
 unitphp () {
-    docker run -v $PWD:/workspace --rm --name $BUILD_CONTAINER $IMAGE  /workspace/app/src/vendor/bin/phpunit --version
+    docker run -v $PWD:/workspace --rm --name $TEST_CONTAINER $BUILDER  /workspace/app/src/vendor/bin/phpunit --version
+}
+
+
+
+serve () {
+    docker run -v $PWD:/workspace -v $PWD/config/dev-serv/nginx:/etc/nginx/conf.d/ --rm --name $DEBUG_CONTAINER $DEVSERV
 }
 
 $*
