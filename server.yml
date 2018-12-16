@@ -8,6 +8,8 @@ services:
       - ./config/dev-serv/nginx/vhost.conf:/etc/nginx/conf.d/default.conf
     links:
       - php7
+    networks:
+      
     
   php7:
     container_name: php-debug
@@ -15,3 +17,18 @@ services:
     image: php_debug:0.1
     volumes: 
       - ./dist:/var/www
+    environment:
+      XDEBUG_CONFIG: idekey=VSCODE
+    ports:
+      - 9000:9000
+
+
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.17.0.0/24
+        gateway: 172.17.0.1
