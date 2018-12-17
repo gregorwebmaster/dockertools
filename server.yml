@@ -9,7 +9,8 @@ services:
     links:
       - php7
     networks:
-      
+      dockertools:
+        ipv4_address: 172.11.2.2
     
   php7:
     container_name: php-debug
@@ -17,18 +18,17 @@ services:
     image: php_debug:0.1
     volumes: 
       - ./dist:/var/www
+    networks:
+      dockertools:
+        ipv4_address: 172.11.2.3
     environment:
       XDEBUG_CONFIG: idekey=VSCODE
     ports:
       - 9000:9000
-
-
-
+      
 networks:
-  default:
+  dockertools:
     driver: bridge
     ipam:
-      driver: default
-      config:
-      - subnet: 172.17.0.0/24
-        gateway: 172.17.0.1
+     config:
+        - subnet: 172.11.2.0/24
