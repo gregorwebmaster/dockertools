@@ -25,5 +25,8 @@
         </div>
     </div>
 </div>
-<?= phpinfo() ?>
+<?php
+$test = 'alal';
+echo $test;
+echo phpinfo(); ?>
 </body>
