@@ -1,0 +1,11 @@
+#!/bin/bash
+
+serve () {
+    docker-compose -f server.yml up
+}
+
+clear () {
+    docker-compose -f server.yml down
+}
+
+$*

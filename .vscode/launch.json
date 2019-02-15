@@ -1,0 +1,15 @@
+{
+    "version": "0.2.5",
+    "configurations": [
+        {
+            "name": "Listen for XDebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9005,
+            "log": true,
+            "pathMappings": {
+                "/var/www": "${workspaceFolder}/dist"
+            }
+        }
+    ]
+    }
