@@ -1,24 +1,21 @@
 # DockerTools
-Docker images for modern webdevelopment based on alpine linux
+Simple in use Docker images for webdevelopment based on alpine linux
 
 # Containers
 
 ## 1. Builder
 
 ### What is builder container?
-We are using webpack and php composer to help you deployed modern web application. Exemplar App you can found in [project repository](https://github.com/gregorwebmaster/dockertools)
+We are using webpack and php composer to help you deploy a modern web application. Exemplar App you can found in [project repository](https://gitlab.com/docker-master/dockertools)
 
 ### Installed Packages
-* Node.js 8
-* NPM 6
+* Node.js
+* NPM
 * PHP 7.2
-* PHP Composer 1.6
-
-### Ports
-* 35729  - Live Reload Webpack plugin
+* PHP Composer
 
 ### Start a build server
-> docker run -v /patch/to/your/app:/workspace -p 35729:35729 gregorwebmaster/dockertools:builder
+> docker run -v "$PWD":/workspace gregorwebmaster/dockertools:builder
 
 #### using docker-compose
 ```
@@ -29,7 +26,35 @@ services:
   builder:
     image: gregorwebmaster/dockertools:builder
     volumes:
-      - /patch/to/your/app:/workspace
-    ports:
-        -35729:35729
+      - "$PWD":/workspace
+```
+
+### Run phpunit
+docker run -v $PWD:/workspace --rm /workspace/app/src/vendor/bin/phpunit
+
+## 2. Debuger
+PHP-FPM server with preinstaled Xdebuger.
+
+### Ports
+  * 9000 - PHP-FPM
+  * 9005 - Xdebug
+  
+### docker-compose configuration
+```
+version: '3'
+services:
+  web:
+    container_name: web-serv
+    image: nginx:1.15-alpine
+    volumes: 
+      - "$PWD":/var/www
+    links:
+      - php7
+    
+  php7:
+    image: gregorwebmaster/dockertools:xdebug
+    volumes: 
+      - "$PWD":/var/www
+    environment:
+      XDEBUG_CONFIG: idekey=VSCODE
 ```

@@ -11,9 +11,6 @@ RUN npm i npm@latest -g
 # instal composer
 RUN apk add composer
 
-# clear installation
-RUN apk cache clean
-
 # set workdir
 RUN mkdir /workspace
 WORKDIR /workspace
