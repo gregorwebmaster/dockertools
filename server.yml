@@ -13,9 +13,7 @@ services:
         ipv4_address: 172.11.2.2
     
   php7:
-    container_name: php-debug
-    build: ./docker/php_debug
-    image: php_debug:0.1
+    image: gregorwebmaster/dockertools:xdebug
     volumes: 
       - ./dist:/var/www
     networks:
