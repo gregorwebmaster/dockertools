@@ -142,10 +142,6 @@ module.exports = () => {
                             'composer.*',
                             '.gitkeep'
                         ]
-                    },
-                    {
-                        from: './app/images/',
-                        to: '../images'
                     }
                 ]
             )
