@@ -17,13 +17,16 @@
 html,
 body {
     background-color: #fff;
-    background-image: url('../images/water-lily.jpg');
-    background-size: cover;
     color: #636b6f;
     font-family: 'Raleway', sans-serif;
     font-weight: 100;
     height: 100vh;
     margin: 0;
+}
+.background-container {
+    background-image: url('../images/water-lily.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .full-height {
@@ -61,16 +64,16 @@ body {
     margin-top: 48px;
 }
 
-.links {
+.my-links {
     margin-top: 180px;
-    & a{
+    & a:link{
         color: #636b6f;
-        padding: 0 25px;
+        padding: 0 20px;
         font-size: 12px;
         font-weight: 600;
-        letter-spacing: .1rem;
         text-decoration: none;
         text-transform: uppercase;
+        background-color: transparent;
     }
 }
 

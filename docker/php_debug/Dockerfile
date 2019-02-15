@@ -1,8 +1,8 @@
-FROM gregorwebmaster/ngino_onezym
+FROM gregorwebmaster/ngino_onezym:7.2-fpm
 
 # install system library
 RUN apk update
-RUN apk add autoconf alpine-sdk
+RUN apk add --no-cache autoconf alpine-sdk
 
 # configure xdebug
 RUN pecl install xdebug \
@@ -10,8 +10,4 @@ RUN pecl install xdebug \
 COPY xdebug.ini /usr/local/etc/php/conf.d/
 
 # clear installation
-RUN rm -rf /var/cache/apk/*
-
-# set workdir
-RUN mkdir /workspace
-WORKDIR /workspace
+RUN apk del autoconf alpine-sdk

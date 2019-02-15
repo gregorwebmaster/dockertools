@@ -6,7 +6,7 @@
 </head>
 
 <body>
-<div class="flex-center position-ref full-height">
+<div class="flex-center position-ref full-height background-container">
     <div class="content">
         <div class="title m-b-md">
             Ngino Docker
@@ -16,7 +16,7 @@
             Application builder
         </div>
 
-        <div class="links">
+        <div class="my-links">
             <a href="http://www.gregorwebmaster.com"><i class="fas fa-globe fa-5x"></i></a>
             <a href="https://github.com/gregorwebmaster/ngino/tree/ngino-builder"><i class="fab fa-github fa-5x"></i></a>
             <a href="https://gitlab.com/docker-master/ngino/tree/ngino-builder"><i class="fab fa-gitlab fa-5x"></i></a>
@@ -26,7 +26,7 @@
     </div>
 </div>
 <?php
-$test = 'alal';
+$test = 'test123';
 echo $test;
 echo phpinfo(); ?>
 </body>
