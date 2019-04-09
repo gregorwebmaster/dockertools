@@ -1,13 +1,16 @@
 BUILDER=gregorwebmaster/dockertools:builder
-DEVSERV=gregorwebmaster/dockertools:devserv
+XDEBUG=gregorwebmaster/dockertools:xdebug
 WPDEBUG=gregorwebmaster/dockertools:wp-debug
-BUILD_CONTAINER=dockertools-builder
-TEST_CONTAINER=dockertools-tester
-DEBUG_CONTAINER=dockertools-debuger
 
 ##########################
 # Build docker images    #
 ##########################
 
+builder:
+	docker build -t $(BUILDER) ./docker/builder
+
+xdebug:
+	docker build -t $(XDEBUG) ./docker/xdebug
+
 wp-debug:
-	docker build -t $(WPDEBUG) ./docker/wp-xdebuge
+	docker build -t $(WPDEBUG) ./docker/wp-debug
