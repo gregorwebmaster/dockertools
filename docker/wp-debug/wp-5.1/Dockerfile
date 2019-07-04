@@ -1,4 +1,4 @@
-FROM wordpress:5.2-php7.3-fpm-alpine
+FROM wordpress:5.1-php7.3-fpm-alpine
 
 # install system library
 RUN apk update
