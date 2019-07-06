@@ -1,16 +1,17 @@
-BUILDER=gregorwebmaster/dockertools:builder
-XDEBUG=gregorwebmaster/dockertools:xdebug
-WPDEBUG=gregorwebmaster/dockertools:wp-debug
+REPO=registry.gitlab.com/docker-master/dockertools
+
 
 ##########################
-# Build docker images    #
+# Build images      	 #
 ##########################
+.PHONY: push-images
+push-images: 
+	docker build -t $(REPO)/$(IMG):$(V) docker/$(IMG)/$(V)
+	docker push $(REPO)/$(IMG)
 
-builder:
-	docker build -t $(BUILDER) ./docker/builder
-
-xdebug:
-	docker build -t $(XDEBUG) ./docker/xdebug
-
-wp-debug:
-	docker build -t $(WPDEBUG) ./docker/wp-debug
+--build-images:
+	@if [ $(V) ]; then\
+		docker build -t $(REPO)/$(IMG):$(V) docker/$(IMG)/$(V);\
+	else\
+		docker build -t $(REPO)/$(IMG) docker/$(IMG);\
+	fi
